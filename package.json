@@ -2,7 +2,7 @@
   "name": "kails",
   "version": "0.1.0",
   "private": true,
-  "license" : "MIT",
+  "license": "MIT",
   "scripts": {
     "console": "node index.js console --harmony",
     "start": "./node_modules/.bin/nodemon index.js & node_modules/.bin/webpack --config config/webpack/development.js --progress --colors --watch",
@@ -91,6 +91,7 @@
     "eslint-loader": "^1.5.0",
     "eslint-plugin-react": "^6.2.2",
     "mocha": "^2.5.3",
+    "mysql2": "^1.1.0",
     "nodemon": "^1.8.1",
     "postcss-cssnext": "^2.8.0",
     "postcss-import": "^8.1.2",

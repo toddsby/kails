@@ -1,13 +1,13 @@
 var database = {
   development: {
-    username: process.env.DATABASE_USERNAME_DEV || 'kails_dev',
-    password: process.env.DATABASE_PASSWORD_DEV || 'kails_dev',
-    database: process.env.DATABASE_NAME_DEV || 'kails_dev',
-    host: process.env.DATABASE_HOST_DEV || '127.0.0.1',
-    dialect: 'postgres',
+    username: process.env.DATABASE_USERNAME_DEV || 'drew',
+    password: process.env.DATABASE_PASSWORD_DEV || 'mypass1234',
+    database: process.env.DATABASE_NAME_DEV || 'koa-kails',
+    host: process.env.DATABASE_HOST_DEV || 'localhost',
+    dialect: 'mysql',
     pool: {
-      max: 5,
-      min: 0,
+      max: 6,
+      min: 2,
       idle: 10000
     }
   },
