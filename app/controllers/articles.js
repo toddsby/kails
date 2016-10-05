@@ -39,7 +39,7 @@ const create = async (ctx, _next) => {
 
 const edit = async (ctx, _next) => {
   const locals = {
-    title: '编辑',
+    title: 'Edit Article',
     nav: 'article'
   };
   await ctx.render('articles/edit', locals);

@@ -22,11 +22,15 @@ async function catchError(ctx, next) {
   }
 }
 
+// Creates ctx.state for use in views by pug templating engine
+
 async function addHelper(ctx, next) {
   let currentUser = null;
   if(ctx.session.userId){
     currentUser = await models.User.findById(ctx.session.userId);
   }
+  // Avaliable in pug view templates
+  // see layout/layout.pug
   ctx.state = {
     csrf: ctx.csrf,
     helpers: helpers,
