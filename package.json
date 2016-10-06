@@ -57,6 +57,7 @@
     "mightty": "github:toddsby/mightty",
     "moment": "^2.14.1",
     "mysql": "^2.11.1",
+    "node-fetch": "^1.6.3",
     "node-sass": "^3.8.0",
     "path": "^0.12.7",
     "pg": "^5.1.0",

@@ -1,6 +1,7 @@
 import logger from 'koa-logger';
 import helpers from '../helpers';
 import models from '../models';
+import { getCachedData, setCachedData } from '../services/cache.service';
 import { isNil, mighttyConsole } from 'mightty';
 import chalk from 'chalk';
 
@@ -27,20 +28,28 @@ async function catchError(ctx, next) {
 // Creates ctx.state for use in views by pug templating engine
 
 async function addHelper(ctx, next) {
-  let currentUser = null;
-  if( isNil( ctx.state.currentUser ) ){
-    console.warn( chalk.yellow( 'ARGH, I\'m empty capt\'n!!' ), {data:'some'},{datanew:'more'} );
-    mighttyConsole.log( chalk.blue('boooom baaby!'), {data:'yum'} );
-    currentUser = await models.User.findById(ctx.session.userId);
+  let currentUser = null,
+      options = { 
+        expiry:60,
+        cacheKey:'currentUser'
+      };
+  if (ctx.session.userId) {
+    currentUser = await getCachedData( options, ctx );
+    console.warn( chalk.yellow( 'I\'m empty: ', isNil( currentUser ) ) );
+    if ( isNil( currentUser ) ) {
+      //mighttyConsole.log( chalk.blue('boooom baaby!'), {data:'yum'} );
+      currentUser = await models.User.findById(ctx.session.userId);
+      setCachedData( options, currentUser, ctx );
+    }
+  }
 
   // Avaliable in pug view templates
   // see layout/layout.pug
-    ctx.state = {
-      csrf: ctx.csrf,
-      helpers: helpers,
-      currentUser: currentUser,
-      isUserSignIn: (currentUser != null)
-    }
+  ctx.state = {
+    csrf: ctx.csrf,
+    helpers: helpers,
+    currentUser: currentUser,
+    isUserSignIn: (currentUser != null)
   }
   await next();
 }

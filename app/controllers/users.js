@@ -34,6 +34,7 @@ const LogOut = (ctx, _next) => {
     return;
   }
   ctx.session.userId = null;
+  ctx.cache.del(options.cacheKey);
   ctx.redirect('/');
 };
 

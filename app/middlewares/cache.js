@@ -4,7 +4,7 @@ import Redis from 'redis';
 module.exports = function (options) {
   options = options || {};
   const prefix = options.prefix || 'kails-cache:';
-  const expire = options.expire || 1800;
+  const expiry = options.expiry || 1800; //redis setex (key, expiry, value), expiry is in seconds -- ie 30 min
 
   let redisAvailable = false;
   let redisOptions = options.redis || {};
@@ -34,9 +34,10 @@ module.exports = function (options) {
     }
     options = options || {};
     key = prefix + key;
-    const tty = options.expire || expire;
+    const expire = options.expiry || expiry;
     value = JSON.stringify(value);
-    await redisClient.setex(key, tty, value);
+    let rr = await redisClient.setex(key, expire, value);
+    console.log(rr, expiry);
   };
 
   const getCache = async function(key) {
@@ -51,10 +52,25 @@ module.exports = function (options) {
     return data;
   };
 
+  const delCache = async function( key ) {
+    if(!redisAvailable){
+      return;
+    }
+    key = prefix + key;
+    await redisClient.del(key);
+    console.log('BEEELeted redis Key', key);
+  }
+
+  // sets up redis cache on koa context 
+  // @param {object}[ctx]
+  // 
+  // add to cache with ctx.cache.set
+  // retrieve from cache with ctx.cache.get
   const cacheMiddle = async function(ctx, next) {
     ctx.cache = {
       get: getCache,
-      set: setCache
+      set: setCache,
+      del: delCache
     };
     await next();
   };
