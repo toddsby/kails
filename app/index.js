@@ -7,6 +7,8 @@ import json from 'koa-json';
 import bodyParser from 'koa-bodyparser';
 import methodOverride from 'koa-methodoverride';
 import logger from 'koa-logger';
+import { isNil } from 'mightty';
+import chalk from 'chalk';
 
 import config from '../config/config';
 import router from './routes';
@@ -76,10 +78,8 @@ app.use(middlewares.addHelper);
 
 // use Koa-Router see github for api
 app.use(router.routes(), router.allowedMethods());
-let anyArgs = (dataArgs) => {
-  return ( dataArgs !== undefined && dataArgs !== null ) ? true : false;
-}
-console.log('recieved arguments:', anyArgs(process.argv[2]) );
+
+console.log( chalk.blue('recieved arguments:'), !isNil(process.argv[2]) );
 
 // convience mechanism for setting up interactive node cli with access to app while running
 // usage node.js index.js -c

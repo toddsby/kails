@@ -1,6 +1,8 @@
 import logger from 'koa-logger';
 import helpers from '../helpers';
 import models from '../models';
+import { isNil, mighttyConsole } from 'mightty';
+import chalk from 'chalk';
 
 async function catchError(ctx, next) {
   try {
@@ -26,17 +28,20 @@ async function catchError(ctx, next) {
 
 async function addHelper(ctx, next) {
   let currentUser = null;
-  if(ctx.session.userId){
+  if( isNil( ctx.state.currentUser ) ){
+    console.warn( chalk.yellow( 'ARGH, I\'m empty capt\'n!!' ), {data:'some'},{datanew:'more'} );
+    mighttyConsole.log( chalk.blue('boooom baaby!'), {data:'yum'} );
     currentUser = await models.User.findById(ctx.session.userId);
-  }
+
   // Avaliable in pug view templates
   // see layout/layout.pug
-  ctx.state = {
-    csrf: ctx.csrf,
-    helpers: helpers,
-    currentUser: currentUser,
-    isUserSignIn: (currentUser != null)
-  };
+    ctx.state = {
+      csrf: ctx.csrf,
+      helpers: helpers,
+      currentUser: currentUser,
+      isUserSignIn: (currentUser != null)
+    }
+  }
   await next();
 }
 
