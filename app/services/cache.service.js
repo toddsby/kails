@@ -20,7 +20,8 @@ export async function getCachedData ( { cacheKey }, ctx ) {
 
 export async function setCachedData ( { cacheKey, expiry }, data, ctx ) {
 
-  await ctx.cache.set( cacheKey, data, expiry );
+  const options = { expiry };
+  await ctx.cache.set( cacheKey, data, options );
 
 }
 

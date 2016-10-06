@@ -35,6 +35,7 @@ module.exports = function (options) {
     options = options || {};
     key = prefix + key;
     const expire = options.expiry || expiry;
+    console.log('MYYY EXPIRY IS:', options.expiry);
     value = JSON.stringify(value);
     let rr = await redisClient.setex(key, expire, value);
     console.log(rr, expiry);
