@@ -1,3 +1,5 @@
+var customDataType = require('../../app/lib/timestamp.datatype');
+
 module.exports = {
   up: function (queryInterface, Sequelize) {
     return queryInterface.createTable('articles', {
@@ -12,12 +14,6 @@ module.exports = {
       content: {
         type: Sequelize.TEXT
       },
-      created_at: {
-        type: Sequelize.DATE
-      },
-      updated_at: {
-        type: Sequelize.DATE
-      },
       user_id: {
         type: Sequelize.INTEGER,
         references: {
@@ -26,7 +22,15 @@ module.exports = {
         },
         onUpdate: 'cascade',
         onDelete: 'cascade'
+      },
+      created_at: {
+        type: customDataType.TIMESTAMP
+      },
+      updated_at: {
+        type: customDataType.TIMESTAMP
       }
+    }, {
+      underscored: true
     });
   },
 

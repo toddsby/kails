@@ -1,4 +1,4 @@
-const port = Number.parseInt(process.env.PORT, 10) || 3000
+const port = Number.parseInt(process.env.PORT, 10) || 3060
 
 module.exports = {
   port: port,

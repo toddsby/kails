@@ -7,6 +7,9 @@ const index = async (ctx, _next) => {
   const newsList = await Promise.all(
     newsIds.map(async id => await hackerNews.getItem(id))
   );
+
+  // {object} [locals] helper for passing data to pug views
+  // see news/index.pug
   const locals = {
     title: 'Hacker News',
     nav: 'news',

@@ -1,7 +1,13 @@
 import models from '../models/index';
 
-const index = (ctx, _next) => {
-  ctx.body = 'this a users response!' + ctx.session.userId;
+const index = async (ctx, _next) => {
+  //ctx.body = 'this a users response!' + ctx.session.userId;
+  ctx.response.type = 'application/json';
+  let users = await models.User.findAll({
+    attributes: { exclude: ['passwordDigest'] }
+  });
+  ctx.response.body = JSON.stringify(users);
+  //ctx.response.body = users;
 };
 
 function setLocals(message) {
@@ -28,6 +34,7 @@ const LogOut = (ctx, _next) => {
     return;
   }
   ctx.session.userId = null;
+  ctx.cache.del(options.cacheKey);
   ctx.redirect('/');
 };
 
