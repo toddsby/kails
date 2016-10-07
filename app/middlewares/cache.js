@@ -38,7 +38,7 @@ module.exports = function (options) {
     console.log('MYYY EXPIRY IS:', options.expiry);
     value = JSON.stringify(value);
     let rr = await redisClient.setex(key, expire, value);
-    console.log(rr, expiry);
+    console.log(rr, expire);
   };
 
   const getCache = async function(key) {

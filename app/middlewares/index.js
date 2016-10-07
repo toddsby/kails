@@ -38,7 +38,9 @@ async function addHelper(ctx, next) {
     console.warn( chalk.yellow( 'I\'m empty: ', isNil( currentUser ) ) );
     if ( isNil( currentUser ) ) {
       //mighttyConsole.log( chalk.blue('boooom baaby!'), {data:'yum'} );
-      currentUser = await models.User.findById(ctx.session.userId);
+      currentUser = await models.User.findById(ctx.session.userId,{
+        attributes: { exclude: ['passwordDigest'] }
+      });
       setCachedData( options, currentUser, ctx );
     }
   }
