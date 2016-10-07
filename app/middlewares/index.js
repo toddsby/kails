@@ -1,10 +1,12 @@
-import logger from 'koa-logger';
 import helpers from '../helpers';
 import models from '../models';
 import { getCachedData, setCachedData } from '../services/cache.service';
 import { isNil, mighttyConsole } from 'mightty';
 import chalk from 'chalk';
+import _ from 'lodash';
 
+// catch error so we can display a user friendly page
+// see view error/error.pug
 async function catchError(ctx, next) {
   try {
     await next();
@@ -13,6 +15,7 @@ async function catchError(ctx, next) {
     let status = err.status || 500;
     // let message = e.message || 'Server Error!'
     ctx.status = status;
+    // helper for use in error.pug view
     ctx.state = {
       status: status,
       helpers: helpers,
@@ -20,7 +23,7 @@ async function catchError(ctx, next) {
     };
     await ctx.render('error/error', {});
     if (status == 500) {
-      logger.error('server error', err, ctx);
+      console.log( 'TELL ME THE STATUS', err );
     }
   }
 }

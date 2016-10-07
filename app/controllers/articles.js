@@ -1,5 +1,7 @@
 import models from '../models/index';
 import { markdown } from '../helpers/markdown';
+import { getCachedData, setCachedData } from '../services/cache.service';
+import { isNil, mighttyConsole } from 'mightty';
 
 const show = async (ctx, _next) => {
   const article = await models.Article.findById(ctx.params.id);
@@ -30,6 +32,7 @@ const newArticle = async (ctx, _next) => {
 };
 
 const create = async (ctx, _next) => {
+  console.log('Create CurrentUser is: ', ctx.state.currentUser);
   const currentUser = ctx.state.currentUser;
   const article = await currentUser.createArticle(ctx.state.articleParams);
   // await models.Article.create(articleParams)
@@ -53,6 +56,7 @@ const update = async (ctx, _next) => {
 };
 
 const checkLogin = async (ctx, next) => {
+  console.log('isUserSignIn: ', ctx.state.isUserSignIn);
   if(!ctx.state.isUserSignIn){
     ctx.status = 302;
     ctx.redirect('/');
