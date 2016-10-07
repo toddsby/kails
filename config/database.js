@@ -9,7 +9,10 @@ var database = {
       max: 6,
       min: 2,
       idle: 10000
-    }
+    },
+    migrationStorageTableName: 'migrations',
+    seederStorage: 'sequelize',
+    seederStorageTableName: 'seeds'
   },
   test: {
     username: process.env.DATABASE_USERNAME_TEST || 'kails_tester',
